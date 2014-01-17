@@ -329,18 +329,18 @@ endif()
 #      message ("Warning: VTK disabled!")
 #    endif ()
 #  endif(VTK_FOUND)
+#else(NOT ANDROID)
+#  set(VTK_FOUND OFF)
+#  set(HAVE_VTK OFF)
+#endif(NOT ANDROID)
 
-  # Find MPI
-  if (WITH_MPI) # this script searches for MPI 10 sec under windows, annoying especially if you do this often
-    find_package(MPI)
-    if(MPI_CXX_FOUND)
-      include_directories(SYSTEM ${MPI_INCLUDE_PATH})
-    endif(MPI_CXX_FOUND)
-  endif()
-else(NOT ANDROID)
-  set(VTK_FOUND OFF)
-  set(HAVE_VTK OFF)
-endif(NOT ANDROID)
+# Find MPI
+if (WITH_MPI) # this script searches for MPI 10 sec under windows, annoying especially if you do this often
+  find_package(MPI)
+  if(MPI_CXX_FOUND)
+    include_directories(SYSTEM ${MPI_INCLUDE_PATH})
+  endif(MPI_CXX_FOUND)
+endif()
 
 #Find Doxygen and html help compiler if any
 find_package(Doxygen)
