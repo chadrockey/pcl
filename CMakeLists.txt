@@ -280,6 +280,9 @@ if (PKG_CONFIG_FOUND)
     include_directories(${PCL_SOURCE_DIR}/recognition/include/pcl/recognition/3rdparty/)
   endif()
 endif()
+if (ANDROID) # Go ahead and include metslib from 3rdparty
+    include_directories(${PCL_SOURCE_DIR}/recognition/include/pcl/recognition/3rdparty/)
+endif()
 
 # LibPNG
 find_package(PNG)
