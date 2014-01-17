@@ -312,29 +312,35 @@ if(NOT QT5_FOUND)
 endif()
 
 # Find VTK
-find_package(VTK)
-if(VTK_FOUND)
-  if (PCL_SHARED_LIBS OR 
-      (NOT (PCL_SHARED_LIBS) AND NOT (VTK_BUILD_SHARED_LIBS)))
-    set(VTK_FOUND TRUE)
-    find_package (QVTK)
-    message(STATUS "VTK found (include: ${VTK_INCLUDE_DIRS}, lib: ${VTK_LIBRARY_DIRS})")
-    link_directories(${VTK_LIBRARY_DIRS})
-    set(HAVE_VTK ON)
-  else ()
-    set(VTK_FOUND OFF)
-    set(HAVE_VTK OFF)
-    message ("Warning: You are to build PCL in STATIC but VTK is SHARED!")
-    message ("Warning: VTK disabled!")
-  endif ()
-endif(VTK_FOUND)
-# Find MPI
-if (WITH_MPI) # this script searches for MPI 10 sec under windows, annoying especially if you do this often
-  find_package(MPI)
-  if(MPI_CXX_FOUND)
-    include_directories(SYSTEM ${MPI_INCLUDE_PATH})
-  endif(MPI_CXX_FOUND)
-endif()
+#if(NOT ANDROID) # Don't try to use VTK with Android
+#  find_package(VTK)
+#  if(VTK_FOUND)
+#    if (PCL_SHARED_LIBS OR 
+#        (NOT (PCL_SHARED_LIBS) AND NOT (VTK_BUILD_SHARED_LIBS)))
+#      set(VTK_FOUND TRUE)
+#      find_package (QVTK)
+#      message(STATUS "VTK found (include: ${VTK_INCLUDE_DIRS}, lib: ${VTK_LIBRARY_DIRS})")
+#      link_directories(${VTK_LIBRARY_DIRS})
+#      set(HAVE_VTK ON)
+#    else ()
+#      set(VTK_FOUND OFF)
+#      set(HAVE_VTK OFF)
+#      message ("Warning: You are to build PCL in STATIC but VTK is SHARED!")
+#      message ("Warning: VTK disabled!")
+#    endif ()
+#  endif(VTK_FOUND)
+
+  # Find MPI
+  if (WITH_MPI) # this script searches for MPI 10 sec under windows, annoying especially if you do this often
+    find_package(MPI)
+    if(MPI_CXX_FOUND)
+      include_directories(SYSTEM ${MPI_INCLUDE_PATH})
+    endif(MPI_CXX_FOUND)
+  endif()
+else(NOT ANDROID)
+  set(VTK_FOUND OFF)
+  set(HAVE_VTK OFF)
+endif(NOT ANDROID)
 
 #Find Doxygen and html help compiler if any
 find_package(Doxygen)
